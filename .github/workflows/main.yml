@@ -53,9 +53,11 @@ jobs:
         run: |
           git fetch origin develop
           git checkout develop  # Switch to the develop branch to compare
-
+     
+      - name: Fetch all branches
+        run: git fetch --all    
       - name: Checkout the feature branch again (after develop)
-        run: git checkout ${{ github.head_ref || github.ref_name }}
+        run: git checkout feat/demo
       # - name: Identify and print affected projects
       #   run: |
       #      npm run build   
