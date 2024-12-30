@@ -58,10 +58,12 @@ jobs:
         run: git fetch --all    
       - name: Checkout the feature branch again (after develop)
         run: git checkout ${{ github.head_ref || github.ref_name }}
-      # - name: Identify and print affected projects
-      #   run: |
-      #      npm run build   
+        
 
       - name: Identify and print affected projects
         run: |
             TURBO_SCM_BASE=origin/develop turbo ls --affected
+            
+      - name: Identify and print affected projects
+        run: |
+           npm run build 
