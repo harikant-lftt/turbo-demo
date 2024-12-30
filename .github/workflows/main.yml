@@ -30,8 +30,8 @@ jobs:
         run: |
           # Fetch the develop branch to compare against it
           git fetch origin develop
-          git checkout develop
+          #git checkout develop
 
       - name: Identify and print affected projects
         run: |
-           TURBO_SCM_BASE=develop turbo ls --affected
+           TURBO_SCM_BASE=origin/develop turbo ls --affected
