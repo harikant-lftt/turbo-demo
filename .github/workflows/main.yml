@@ -52,12 +52,12 @@ jobs:
       - name: Get the latest develop branch
         run: |
           git fetch origin develop
-         # git checkout develop  # Switch to the develop branch to compare
+          git checkout develop  # Switch to the develop branch to compare
      
       - name: Fetch all branches
         run: git fetch --all    
-      # - name: Checkout the feature branch again (after develop)
-      #   run: git checkout ${{ github.head_ref || github.ref_name }}
+      - name: Checkout the feature branch again (after develop)
+        run: git checkout ${{ github.head_ref || github.ref_name }}
       # - name: Identify and print affected projects
       #   run: |
       #      npm run build   
