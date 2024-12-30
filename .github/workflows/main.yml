@@ -33,7 +33,4 @@ jobs:
 
       - name: Identify and print affected projects
         run: |
-          # Set TURBO_SCM_BASE to 'develop' for comparison and list affected projects
-          TURBO_SCM_BASE=develop turbo ls --affected --json > affected.json
-          affected=$(cat affected.json | jq -r '.tasks[].task')
-          echo "Affected services: $affected"
+           TURBO_SCM_BASE=develop turbo ls --affected
