@@ -64,6 +64,6 @@ jobs:
         run: |
             TURBO_SCM_BASE=origin/develop turbo ls --affected
             
-      - name: Identify and print affected projects
+      - name: Build  affected projects
         run: |
            npm run build 
