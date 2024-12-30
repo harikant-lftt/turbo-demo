@@ -79,5 +79,5 @@ jobs:
             project_name=$(echo "$line" | awk '{print $1}')
             project_path=$(echo "$line" | awk '{print $2}') 
             echo "Building project: $project_name at $project_path"  
-            turbo run build --filter=$project_nam
+            turbo run build --filter=$project_name
           done < affected.txt
