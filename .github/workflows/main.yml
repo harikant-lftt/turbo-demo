@@ -30,10 +30,26 @@ jobs:
         run: |
           # Fetch the develop branch to compare against it
           git fetch origin develop
+          #git checkout develop
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Cache Turborepo cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            .turbo
+          key: ${{ runner.os }}-turborepo-cache-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-turborepo-cache-
 
       - name: Identify and print affected projects
         run: |
-          # Set TURBO_SCM_BASE to 'develop' for comparison and list affected projects
-          TURBO_SCM_BASE=develop turbo ls --affected --json > affected.json
-          affected=$(cat affected.json | jq -r '.tasks[].task')
-          echo "Affected services: $affected"
+            turbo run build 
