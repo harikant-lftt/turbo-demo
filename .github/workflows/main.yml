@@ -60,10 +60,34 @@ jobs:
         run: git checkout ${{ github.head_ref || github.ref_name }}
         
 
-      - name: Identify and print affected projects
-        run: |
-            TURBO_SCM_BASE=origin/develop turbo ls --affected
+      # - name: Identify and print affected projects
+      #   run: |
+      #       TURBO_SCM_BASE=origin/develop turbo ls --affected
             
-      - name: Build  affected projects
+      # - name: Build  affected projects
+      #   run: |
+      #      npm run build 
+      - name: List affected projects
+        id: list-affected
         run: |
-           npm run build 
+          TURBO_SCM_BASE=origin/develop turbo ls --affected > affected.txt
+          cat affected.txt
+
+      - name: Build affected projects
+        run: | 
+          while IFS= read -r line; do
+            # Skip header lines and empty lines
+            if [[ "$line" =~ ^[0-9]+ ]]; then
+              continue
+            fi
+            if [[ -z "$line" ]]; then
+              continue
+            fi
+
+            # Parse project name and path
+            project_name=$(echo "$line" | awk '{print $1}')
+            project_path=$(echo "$line" | awk '{print $2}') 
+             echo "Building project: $project_name at $project_path"   
+            turbo run build --filter=$project_name 
+          done < affected.txt
+           
