@@ -44,11 +44,18 @@ jobs:
           npm install -g turbo
           npm install
 
-      - name: Fetch develop branch (for comparison)
+      # - name: Fetch develop branch (for comparison)
+      #   run: |
+      #     # Fetch the develop branch to compare against it
+      #     git fetch origin develop
+      #     #git checkout develop 
+      - name: Get the latest develop branch
         run: |
-          # Fetch the develop branch to compare against it
           git fetch origin develop
-          #git checkout develop 
+          git checkout develop  # Switch to the develop branch to compare
+
+      - name: Checkout the feature branch again (after develop)
+        run: git checkout ${{ github.ref }}  # Checkout the feature branch again
       # - name: Identify and print affected projects
       #   run: |
       #      npm run build   
