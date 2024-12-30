@@ -20,17 +20,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: Install Turbo and dependencies
-        run: |
-          npm install -g turbo
-          npm install
-
-      - name: Fetch develop branch (for comparison)
-        run: |
-          # Fetch the develop branch to compare against it
-          git fetch origin develop
-          #git checkout develop
+          
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
@@ -41,15 +31,28 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
-      - name: Cache Turborepo cache
+      - name: Cache Turbo Cache
         uses: actions/cache@v3
         with:
-          path: |
-            .turbo
-          key: ${{ runner.os }}-turborepo-cache-${{ hashFiles('**/package.json') }}
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ hashFiles('**/turbo.json', '**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-turborepo-cache-
+            ${{ runner.os }}-turbo-
 
+      - name: Install Turbo and dependencies
+        run: |
+          npm install -g turbo
+          npm install
+
+      - name: Fetch develop branch (for comparison)
+        run: |
+          # Fetch the develop branch to compare against it
+          git fetch origin develop
+          #git checkout develop 
       - name: Identify and print affected projects
         run: |
-            turbo run build 
+           npm run build   
+
+      # - name: Identify and print affected projects
+      #   run: |
+      #       TURBO_SCM_BASE=origin/develop turbo ls --affected
