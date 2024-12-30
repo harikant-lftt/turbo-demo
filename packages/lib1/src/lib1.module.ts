@@ -5,4 +5,9 @@ import { Lib1Service } from './lib1.service';
   providers: [Lib1Service],
   exports: [Lib1Service],
 })
-export class Lib1Module {}
+export class Lib1Module {
+
+  getHello(): string {
+    return 'Hello World!';
+  }
+}
