@@ -1,1 +1,39 @@
 
+name: List Affected Projects
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  identify-affected:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Turbo and dependencies
+        run: |
+          npm install -g turbo
+          npm install
+
+      - name: Fetch develop branch (for comparison)
+        run: |
+          # Fetch the develop branch to compare against it
+          git fetch origin develop
+
+      - name: Identify and print affected projects
+        run: |
+          # Set TURBO_SCM_BASE to 'develop' for comparison and list affected projects
+          TURBO_SCM_BASE=develop turbo ls --affected --json > affected.json
+          affected=$(cat affected.json | jq -r '.tasks[].task')
+          echo "Affected services: $affected"
