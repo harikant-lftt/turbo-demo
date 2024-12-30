@@ -34,4 +34,4 @@ jobs:
 
       - name: Identify and print affected projects
         run: |
-           TURBO_SCM_BASE=origin/develop turbo ls --affected
+           TURBO_SCM_BASE=origin/develop turbo run build --filter=affected
